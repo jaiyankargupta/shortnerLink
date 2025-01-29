@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advertisement</title>
+    <style>
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        background-color: #f0f0f0;
+        position: relative;
+      }
+      .full-page-ad {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+      .full-page-ad iframe {
+        width: 95%;
+        height: 95%;
+      }
+      .full-page-ad .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: red;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+      .ad-container {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+      }
+      .ad-banner {
+        width: 100%;
+        height: 150px;
+        background-color: white;
+        margin-bottom: 10px;
+        position: relative;
+      }
+      .ad-banner iframe {
+        width: 100%;
+        height: 100%;
+      }
+      .ad-banner .close-btn {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background-color: red;
+        color: white;
+        border: none;
+        padding: 5px;
+        cursor: pointer;
+      }
+      .ad-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 10px;
+        width: 100%;
+        max-width: 1200px;
+      }
+      .ad-item {
+        position: relative;
+        width: 100%;
+        height: 200px;
+        background-color: white;
+      }
+      .ad-item iframe {
+        width: 100%;
+        height: 100%;
+      }
+      .ad-item .close-btn {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background-color: red;
+        color: white;
+        border: none;
+        padding: 5px;
+        cursor: pointer;
+      }
+      .click-here-btn {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: blue;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 style="text-align: center; margin-bottom: 10px">Scroll to Get Link</h1>
+    <div class="full-page-ad">
+      <button class="close-btn" onclick="closeFullPageAd()">X</button>
+      <iframe
+        src="https://www.profitablecpmrate.com/nec48y8n23?key=d385c3a40417997ef8126667bb741517"
+        frameborder="0"
+      ></iframe>
+    </div>
+    <div class="ad-container">
+      <div class="ad-banner">
+        <button class="close-btn" onclick="closeAd(this)">X</button>
+        <iframe
+          src="https://www.profitablecpmrate.com/nec48y8n23?key=d385c3a40417997ef8126667bb741517"
+          frameborder="0"
+        ></iframe>
+      </div>
+      <div class="ad-grid">
+        <div class="ad-item">
+          <button class="close-btn" onclick="closeAd(this)">X</button>
+          <iframe
+            src="https://www.profitablecpmrate.com/nec48y8n23?key=d385c3a40417997ef8126667bb741517"
+            frameborder="0"
+          ></iframe>
+        </div>
+        <div class="ad-item">
+          <button class="close-btn" onclick="closeAd(this)">X</button>
+          <iframe
+            src="https://www.profitablecpmrate.com/nec48y8n23?key=d385c3a40417997ef8126667bb741517"
+            frameborder="0"
+          ></iframe>
+        </div>
+        <div class="ad-item">
+          <button class="close-btn" onclick="closeAd(this)">X</button>
+          <iframe
+            src="https://www.profitablecpmrate.com/nec48y8n23?key=d385c3a40417997ef8126667bb741517"
+            frameborder="0"
+          ></iframe>
+        </div>
+        <div class="ad-item">
+          <button class="close-btn" onclick="closeAd(this)">X</button>
+          <iframe
+            src="https://www.profitablecpmrate.com/nec48y8n23?key=d385c3a40417997ef8126667bb741517"
+            frameborder="0"
+          ></iframe>
+        </div>
+        <div class="ad-item">
+          <button class="close-btn" onclick="closeAd(this)">X</button>
+          <iframe
+            src="https://www.profitablecpmrate.com/nec48y8n23?key=d385c3a40417997ef8126667bb741517"
+            frameborder="0"
+          ></iframe>
+        </div>
+        <div class="ad-item">
+          <button class="close-btn" onclick="closeAd(this)">X</button>
+          <iframe
+            src="https://www.profitablecpmrate.com/nec48y8n23?key=d385c3a40417997ef8126667bb741517"
+            frameborder="0"
+          ></iframe>
+        </div>
+      </div>
+      <div class="ad-banner">
+        <button class="close-btn" onclick="closeAd(this)">X</button>
+        <iframe
+          src="https://www.profitablecpmrate.com/nec48y8n23?key=d385c3a40417997ef8126667bb741517"
+          frameborder="0"
+        ></iframe>
+      </div>
+      <button class="click-here-btn" onclick="redirectToLink()">
+        Continue
+      </button>
+    </div>
+    <script>
+      function closeFullPageAd() {
+        document.querySelector(".full-page-ad").style.display = "none";
+        document.querySelector(".ad-container").style.display = "flex";
+      }
+
+      function closeAd(button) {
+        button.parentElement.style.display = "none";
+      }
+
+      function redirectToLink() {
+        const shortId = window.location.pathname.split("/").pop();
+        window.location.href = `/redirect/${shortId}`;
+      }
+    </script>
+  </body>
+</html>

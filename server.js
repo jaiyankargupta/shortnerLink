@@ -6,13 +6,16 @@ const { nanoid } = require("nanoid");
 const mongoose = require("mongoose");
 const Url = require("./models/Url"); // Import the Url model
 const app = express();
-const port = process.env.PORT || 3005; // Change the port number
+const port = process.env.PORT || 3008;
 
 app.use(bodyParser.json());
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.MONGODB_URI)
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log("Connected to MongoDB");
   })
@@ -38,7 +41,7 @@ app.post("/shorten", async (req, res) => {
   try {
     const originalUrl = req.body.url;
     const hash = generateShortenedUrl();
-    const shortUrl = `https://rustyn.vercel.app/${hash}`; // Use your Vercel app URL
+    const shortUrl = `${req.protocol}://${req.get("host")}/${hash}`; // Construct the full short URL
 
     const newUrl = new Url({
       originalUrl,
@@ -65,7 +68,24 @@ app.get("/:hash", async (req, res) => {
     if (url) {
       url.clicks += 1;
       await url.save();
-      res.redirect(url.originalUrl);
+      res.sendFile(path.join(__dirname, "src", "/views/ad.html"));
+    } else {
+      res.status(404).send("Not Found");
+    }
+  } catch (error) {
+    console.error("Error finding URL:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+// Final destination route
+app.get("/redirect/:hash", async (req, res) => {
+  try {
+    const hash = req.params.hash;
+    const url = await Url.findOne({ hash }); // Find the URL by the hash in the database
+    // redirect to the original URL
+    if (url) {
+      res.status(301).redirect(url.originalUrl);
     } else {
       res.status(404).send("Not Found");
     }
