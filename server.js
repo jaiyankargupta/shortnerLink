@@ -41,7 +41,7 @@ app.post("/shorten", async (req, res) => {
   try {
     const originalUrl = req.body.url;
     const hash = generateShortenedUrl();
-    const shortUrl = `https://rustynshort.vercel.app/${hash}`; // Construct the full short URL
+    const shortUrl = `${req.protocol}://${req.get("host")}/ad/${hash}`; // Construct the full short URL
 
     const newUrl = new Url({
       originalUrl,
@@ -59,16 +59,12 @@ app.post("/shorten", async (req, res) => {
   }
 });
 
-// Redirect route
-app.get("/:hash", async (req, res) => {
+// Ad page route
+app.get("/ad/:hash", async (req, res) => {
   try {
-    const hash = req.params.hash;
-    const url = await Url.findOne({ hash });
-
+    const url = await Url.findOne({ hash: req.params.hash });
     if (url) {
-      url.clicks += 1;
-      await url.save();
-      res.sendFile(path.join(__dirname, "src", "/views/ad.html"));
+      res.sendFile(path.join(__dirname, "src", "views", "ad.html"));
     } else {
       res.status(404).send("Not Found");
     }
@@ -78,14 +74,12 @@ app.get("/:hash", async (req, res) => {
   }
 });
 
-// Final destination route
+// Redirect route
 app.get("/redirect/:hash", async (req, res) => {
   try {
-    const hash = req.params.hash;
-    const url = await Url.findOne({ hash }); // Find the URL by the hash in the database
-    // redirect to the original URL
+    const url = await Url.findOne({ hash: req.params.hash });
     if (url) {
-      res.status(301).redirect(url.originalUrl);
+      res.redirect(url.originalUrl);
     } else {
       res.status(404).send("Not Found");
     }
