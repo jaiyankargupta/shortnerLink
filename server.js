@@ -6,25 +6,34 @@ const { nanoid } = require("nanoid");
 const mongoose = require("mongoose");
 const Url = require("./models/Url"); // Import the Url model
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3002;
 
 app.use(bodyParser.json());
 
 // Connect to MongoDB
+let dbConnectionStatus = "disconnected";
+
 mongoose
   .connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
   .then(() => {
+    dbConnectionStatus = "connected";
     console.log("Connected to MongoDB");
   })
   .catch((error) => {
+    dbConnectionStatus = "error";
     console.error("Error connecting to MongoDB:", error);
   });
 
 // Serve static files from the "src" directory
 app.use(express.static(path.join(__dirname, "src")));
+
+// Health check endpoint
+app.get("/health", (req, res) => {
+  res.json({ status: dbConnectionStatus });
+});
 
 function generateShortenedUrl() {
   const hash = nanoid(8); // Generate a unique ID of length 8
