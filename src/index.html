@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Link Shortener</title>
+    <link rel="stylesheet" href="styles/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Link Shortener</h1>
+      <form id="shorten-form">
+        <input
+          type="url"
+          id="url-input"
+          placeholder="Enter your URL here"
+          required
+        />
+        <button type="submit">Shorten</button>
+      </form>
+      <div id="shortened-link" class="hidden">
+        <p>
+          Your shortened link: <a id="link-output" href="#" target="_blank"></a>
+        </p>
+      </div>
+    </div>
+    <script src="scripts/app.js"></script>
+  </body>
+</html>

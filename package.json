@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "express": "^4.21.2",
+    "nodemon": "^3.1.9"
+  },
+  "name": "link-shortener-website",
+  "version": "1.0.0",
+  "description": "This project is a simple link shortener website that allows users to shorten URLs and view advertisements before being redirected to their final destination.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

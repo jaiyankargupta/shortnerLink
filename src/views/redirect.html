@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <script>
+        // Redirect to the destination link after a delay
+        setTimeout(function() {
+            const destinationUrl = new URLSearchParams(window.location.search).get('url');
+            if (destinationUrl) {
+                window.location.href = destinationUrl;
+            } else {
+                window.location.href = '/'; // Fallback if no URL is provided
+            }
+        }, 5000); // 5 seconds delay
+    </script>
+</head>
+<body>
+    <h1>Redirecting...</h1>
+    <p>You will be redirected shortly. If not, <a href="#" id="redirect-link">click here</a>.</p>
+    <script>
+        document.getElementById('redirect-link').onclick = function() {
+            const destinationUrl = new URLSearchParams(window.location.search).get('url');
+            if (destinationUrl) {
+                window.location.href = destinationUrl;
+            }
+        };
+    </script>
+</body>
+</html>
