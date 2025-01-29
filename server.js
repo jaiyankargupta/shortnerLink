@@ -6,7 +6,7 @@ const { nanoid } = require("nanoid");
 const mongoose = require("mongoose");
 const Url = require("./models/Url"); // Import the Url model
 const app = express();
-const port = process.env.PORT || 3008;
+const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
@@ -41,7 +41,7 @@ app.post("/shorten", async (req, res) => {
   try {
     const originalUrl = req.body.url;
     const hash = generateShortenedUrl();
-    const shortUrl = `${req.protocol}://${req.get("host")}/${hash}`; // Construct the full short URL
+    const shortUrl = `https://rustynshort.vercel.app/${hash}`; // Construct the full short URL
 
     const newUrl = new Url({
       originalUrl,
