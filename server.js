@@ -1,38 +1,79 @@
+require("dotenv").config();
 const express = require("express");
+const bodyParser = require("body-parser");
 const path = require("path");
+const { nanoid } = require("nanoid");
+const mongoose = require("mongoose");
+const Url = require("./models/Url"); // Import the Url model
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3005; // Change the port number
 
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+// Connect to MongoDB
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => {
+    console.log("Connected to MongoDB");
+  })
+  .catch((error) => {
+    console.error("Error connecting to MongoDB:", error);
+  });
+
+// Serve static files from the "src" directory
 app.use(express.static(path.join(__dirname, "src")));
 
-let links = {};
+function generateShortenedUrl() {
+  const hash = nanoid(8); // Generate a unique ID of length 8
+  return hash;
+}
 
-app.post("/shorten", (req, res) => {
-  const originalUrl = req.body.url;
-  const shortId = Math.random().toString(36).substring(2, 8);
-  links[shortId] = originalUrl;
-  res.json({ shortUrl: `/ad/${shortId}` });
+// Root route
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "src", "index.html"));
 });
 
-app.get("/ad/:id", (req, res) => {
-  const shortId = req.params.id;
-  if (links[shortId]) {
-    res.sendFile(path.join(__dirname, "src", "views", "ad.html"));
-  } else {
-    res.status(404).send("Not Found");
+// Shorten URL route
+app.post("/shorten", async (req, res) => {
+  try {
+    const originalUrl = req.body.url;
+    const hash = generateShortenedUrl();
+    const shortUrl = `https://rustyn.vercel.app/${hash}`; // Use your Vercel app URL
+
+    const newUrl = new Url({
+      originalUrl,
+      shortUrl,
+      hash,
+    });
+
+    await newUrl.save();
+
+    res.json({ shortUrl });
+  } catch (error) {
+    console.error("Error saving URL:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
 
-app.get("/redirect/:id", (req, res) => {
-  const shortId = req.params.id;
-  if (links[shortId]) {
-    res.redirect(links[shortId]);
-  } else {
-    res.status(404).send("Not Found");
+// Redirect route
+app.get("/:hash", async (req, res) => {
+  try {
+    const hash = req.params.hash;
+    const url = await Url.findOne({ hash });
+
+    if (url) {
+      url.clicks += 1;
+      await url.save();
+      res.redirect(url.originalUrl);
+    } else {
+      res.status(404).send("Not Found");
+    }
+  } catch (error) {
+    console.error("Error finding URL:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
 
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`URL shortener app listening at http://localhost:${port}`);
 });

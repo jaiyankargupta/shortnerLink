@@ -11,13 +11,13 @@ document
     fetch("/shorten", {
       method: "POST",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
       },
-      body: `url=${encodeURIComponent(urlInput)}`,
+      body: JSON.stringify({ url: urlInput }),
     })
       .then((response) => response.json())
       .then((data) => {
-        const shortUrl = `${window.location.origin}${data.shortUrl}`;
+        const shortUrl = data.shortUrl; // Use the shortUrl directly from the response
         document.getElementById("shortened-link").classList.remove("hidden");
         document.getElementById("link-output").textContent = shortUrl;
         document.getElementById("link-output").href = shortUrl;
@@ -30,7 +30,7 @@ document
 function generateShortenedUrl(originalUrl) {
   // Simple hash function to simulate URL shortening
   const hash = btoa(originalUrl).substring(0, 8);
-  return `https://short.ly/${hash}`;
+  return `https://rustyn.vercel.app/${hash}`;
 }
 
 function redirectToAd(shortenedUrl) {
