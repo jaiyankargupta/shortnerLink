@@ -10,16 +10,6 @@ const port = process.env.PORT || 3005; // Change the port number
 
 app.use(bodyParser.json());
 
-// Connect to MongoDB
-mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((error) => {
-    console.error("Error connecting to MongoDB:", error);
-  });
-
 // Serve static files from the "src" directory
 app.use(express.static(path.join(__dirname, "src")));
 
@@ -55,25 +45,15 @@ app.post("/shorten", async (req, res) => {
   }
 });
 
-// Redirect route
-app.get("/:hash", async (req, res) => {
-  try {
-    const hash = req.params.hash;
-    const url = await Url.findOne({ hash });
-
-    if (url) {
-      url.clicks += 1;
-      await url.save();
-      res.redirect(url.originalUrl);
-    } else {
-      res.status(404).send("Not Found");
-    }
-  } catch (error) {
-    console.error("Error finding URL:", error);
-    res.status(500).send("Internal Server Error");
-  }
-});
-
 app.listen(port, () => {
+  // Connect to MongoDB
+  mongoose
+    .connect(process.env.MONGODB_URI)
+    .then(() => {
+      console.log("Connected to MongoDB");
+    })
+    .catch((error) => {
+      console.error("Error connecting to MongoDB:", error);
+    });
   console.log(`URL shortener app listening at http://localhost:${port}`);
 });

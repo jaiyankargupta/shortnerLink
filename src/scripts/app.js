@@ -26,32 +26,3 @@ document
         console.error("Error:", error);
       });
   });
-
-function generateShortenedUrl(originalUrl) {
-  // Simple hash function to simulate URL shortening
-  const hash = btoa(originalUrl).substring(0, 8);
-  return `https://rustyn.vercel.app/${hash}`;
-}
-
-function redirectToAd(shortenedUrl) {
-  // Redirect to the ad page with the shortened URL as a query parameter
-  window.location.href = `views/ad.html?url=${encodeURIComponent(
-    shortenedUrl
-  )}`;
-}
-
-// Function to handle redirection after displaying the ad
-function handleRedirect() {
-  const params = new URLSearchParams(window.location.search);
-  const destinationUrl = params.get("url");
-  if (destinationUrl) {
-    setTimeout(() => {
-      window.location.href = destinationUrl;
-    }, 5000); // Redirect after 5 seconds
-  }
-}
-
-// Call handleRedirect if on the redirect page
-if (window.location.pathname.includes("redirect.html")) {
-  handleRedirect();
-}
