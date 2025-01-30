@@ -15,7 +15,12 @@ document
       },
       body: JSON.stringify({ url: urlInput }),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
       .then((data) => {
         const shortUrl = data.shortUrl; // Use the shortUrl directly from the response
         document.getElementById("shortened-link").classList.remove("hidden");

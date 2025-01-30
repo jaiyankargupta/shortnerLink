@@ -6,7 +6,7 @@ const { nanoid } = require("nanoid");
 const mongoose = require("mongoose");
 const Url = require("./models/Url"); // Import the Url model
 const app = express();
-const port = process.env.PORT || 3002;
+const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
@@ -51,6 +51,7 @@ app.post("/shorten", async (req, res) => {
     const originalUrl = req.body.url;
     const hash = generateShortenedUrl();
     const shortUrl = `${req.protocol}://${req.get("host")}/ad/${hash}`; // Construct the full short URL
+    console.log(`Shortening URL: ${originalUrl} to ${shortUrl}`);
 
     const newUrl = new Url({
       originalUrl,
