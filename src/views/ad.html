@@ -103,11 +103,11 @@
     </style>
   </head>
   <body>
-    <h1 style="text-align: center; margin-bottom: 10px">Scroll to Get Link</h1>
+    <!-- <h1 style="text-align: center; margin-bottom: 10px">Scroll to Get Link</h1>
     <div class="full-page-ad">
       <button class="close-btn" onclick="closeFullPageAd()">X</button>
       <iframe
-        src="https://www.profitablecpmrate.com/nec48y8n23?key=d385c3a40417997ef8126667bb741517"
+         src="https://www.profitablecpmrate.com/nec48y8n23?key=d385c3a40417997ef8126667bb741517"
         frameborder="0"
       ></iframe>
     </div>
@@ -169,20 +169,21 @@
           src="https://www.profitablecpmrate.com/nec48y8n23?key=d385c3a40417997ef8126667bb741517"
           frameborder="0"
         ></iframe>
-      </div>
-      <button class="click-here-btn" onclick="redirectToLink()">
+      </div> --> 
+      <div style="text-align: center;" ><button class="click-here-btn" onclick="redirectToLink()">
         Continue
-      </button>
+      </button></div>
+      
     </div>
     <script>
-      function closeFullPageAd() {
-        document.querySelector(".full-page-ad").style.display = "none";
-        document.querySelector(".ad-container").style.display = "flex";
-      }
+      // function closeFullPageAd() {
+      //   document.querySelector(".full-page-ad").style.display = "none";
+      //   document.querySelector(".ad-container").style.display = "flex";
+      // }
 
-      function closeAd(button) {
-        button.parentElement.style.display = "none";
-      }
+      // function closeAd(button) {
+      //   button.parentElement.style.display = "none";
+      // }
 
       function redirectToLink() {
         const shortId = window.location.pathname.split("/").pop();

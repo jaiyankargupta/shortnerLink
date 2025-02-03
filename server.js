@@ -50,8 +50,7 @@ app.post("/shorten", async (req, res) => {
   try {
     const originalUrl = req.body.url;
     const hash = generateShortenedUrl();
-    const shortUrl = `${req.protocol}://${req.get("host")}/ad/${hash}`; // Construct the full short URL
-    console.log(`Shortening URL: ${originalUrl} to ${shortUrl}`);
+    const shortUrl = `${req.protocol}://${req.get("host")}/${hash}`; // Construct the full short URL
 
     const newUrl = new Url({
       originalUrl,
@@ -70,7 +69,7 @@ app.post("/shorten", async (req, res) => {
 });
 
 // Ad page route
-app.get("/ad/:hash", async (req, res) => {
+app.get("/:hash", async (req, res) => {
   try {
     const url = await Url.findOne({ hash: req.params.hash });
     if (url) {
